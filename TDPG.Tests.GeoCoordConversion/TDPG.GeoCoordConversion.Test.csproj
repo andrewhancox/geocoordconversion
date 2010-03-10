@@ -48,9 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeoTestDataSet.cs" />
+    <Compile Include="GeoTestDataSet.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestSuite.cs" />
+    <Compile Include="TestSuite.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TDPG.GeoCoordConversion\TDPG.GeoCoordConversion.csproj">
