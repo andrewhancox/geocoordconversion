@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GeoCoordConversion")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("GeoCoordConversion")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("The Digital Property Group")]
 [assembly: AssemblyProduct("GeoCoordConversion")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCopyright("The Digital Property Group")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
