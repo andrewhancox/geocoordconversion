@@ -155,10 +155,10 @@ namespace TDPG.GeoCoordConversion
             double rho = _Airy1830.SemimajorAxis * _NatGridScaleFactor * (1 - _e2) / Math.Pow(1 - _e2 * sinLat * sinLat, 1.5);  // meridional radius of curvature
             double eta2 = nu / rho - 1;
 
-            double Ma = (1 + _n + (5 / 4) * _n2 + (5 / 4) * _n3) * (originalRads.Lat - _NatGridTrueOrigin.Lat);
-            double Mb = (3 * _n + 3 * _n * _n + (21 / 8) * _n3) * Math.Sin(originalRads.Lat - _NatGridTrueOrigin.Lat) * Math.Cos(originalRads.Lat + _NatGridTrueOrigin.Lat);
-            double Mc = ((15 / 8) * _n2 + (15 / 8) * _n3) * Math.Sin(2 * (originalRads.Lat - _NatGridTrueOrigin.Lat)) * Math.Cos(2 * (originalRads.Lat + _NatGridTrueOrigin.Lat));
-            double Md = (35 / 24) * _n3 * Math.Sin(3 * (originalRads.Lat - _NatGridTrueOrigin.Lat)) * Math.Cos(3 * (originalRads.Lat + _NatGridTrueOrigin.Lat));
+            double Ma = (1 + _n + (5d / 4d) * _n2 + (5d / 4d) * _n3) * (originalRads.Lat - _NatGridTrueOrigin.Lat);
+            double Mb = (3 * _n + 3 * _n * _n + (21d / 8d) * _n3) * Math.Sin(originalRads.Lat - _NatGridTrueOrigin.Lat) * Math.Cos(originalRads.Lat + _NatGridTrueOrigin.Lat);
+            double Mc = ((15d / 8d) * _n2 + (15d / 8d) * _n3) * Math.Sin(2 * (originalRads.Lat - _NatGridTrueOrigin.Lat)) * Math.Cos(2 * (originalRads.Lat + _NatGridTrueOrigin.Lat));
+            double Md = (35d / 24d) * _n3 * Math.Sin(3 * (originalRads.Lat - _NatGridTrueOrigin.Lat)) * Math.Cos(3 * (originalRads.Lat + _NatGridTrueOrigin.Lat));
             double M = _Airy1830.SemiMinorAxis * _NatGridScaleFactor * (Ma - Mb + Mc - Md);              // meridional arc
 
             double cos3lat = cosLat * cosLat * cosLat;
@@ -191,10 +191,10 @@ namespace TDPG.GeoCoordConversion
             {
                 lat = (g.Northing - _NatNETrueOrigin.Northing - M) / (_Airy1830.SemimajorAxis * _NatGridScaleFactor) + lat;
 
-                double Ma = (1 + _n + (5 / 4) * _n2 + (5 / 4) * _n3) * (lat - _NatGridTrueOrigin.Lat);
-                double Mb = (3 * _n + 3 * _n * _n + (21 / 8) * _n3) * Math.Sin(lat - _NatGridTrueOrigin.Lat) * Math.Cos(lat + _NatGridTrueOrigin.Lat);
-                double Mc = ((15 / 8) * _n2 + (15 / 8) * _n3) * Math.Sin(2 * (lat - _NatGridTrueOrigin.Lat)) * Math.Cos(2 * (lat + _NatGridTrueOrigin.Lat));
-                double Md = (35 / 24) * _n3 * Math.Sin(3 * (lat - _NatGridTrueOrigin.Lat)) * Math.Cos(3 * (lat + _NatGridTrueOrigin.Lat));
+                double Ma = (1 + _n + (5d / 4d) * _n2 + (5d / 4d) * _n3) * (lat - _NatGridTrueOrigin.Lat);
+                double Mb = (3 * _n + 3 * _n * _n + (21d / 8d) * _n3) * Math.Sin(lat - _NatGridTrueOrigin.Lat) * Math.Cos(lat + _NatGridTrueOrigin.Lat);
+                double Mc = ((15d / 8d) * _n2 + (15d / 8d) * _n3) * Math.Sin(2 * (lat - _NatGridTrueOrigin.Lat)) * Math.Cos(2 * (lat + _NatGridTrueOrigin.Lat));
+                double Md = (35d / 24d) * _n3 * Math.Sin(3 * (lat - _NatGridTrueOrigin.Lat)) * Math.Cos(3 * (lat + _NatGridTrueOrigin.Lat));
                 M = _Airy1830.SemiMinorAxis * _NatGridScaleFactor * (Ma - Mb + Mc - Md);                // meridional arc
 
             } while (g.Northing - _NatNETrueOrigin.Northing - M >= 0.00001);  // ie until < 0.01mm
