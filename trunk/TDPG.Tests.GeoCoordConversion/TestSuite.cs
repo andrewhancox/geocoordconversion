@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using TDPG.GeoCoordConversion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TDPG.GeoCoordConversion.Test
@@ -13,6 +11,48 @@ namespace TDPG.GeoCoordConversion.Test
     [TestClass]
     public class TestSuite
     {
+        private List<GeoTestDataSet> testData;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            // Following values come from http://www.nearby.org.uk/coord.cgi?p=BN1+6PJ&f=conv            
+
+            testData = new List<GeoTestDataSet>
+                {
+                    new GeoTestDataSet(
+                        "Brighton",
+                        new PolarGeoCoordinate(50.84609, -0.1424094, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
+                        new PolarGeoCoordinate(50.84668, -0.1439875, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                        new GridReference(530760, 106880)),
+                    new GeoTestDataSet(
+                        "Newcastle",
+                        new PolarGeoCoordinate(54.979808, -1.584025, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
+                        new PolarGeoCoordinate(54.979889, -1.585609, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                        new GridReference(426620, 565110)),
+                    new GeoTestDataSet(
+                        "Truro",
+                        new PolarGeoCoordinate(50.262067, -5.052743, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
+                        new PolarGeoCoordinate(50.262655, -5.053748, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                        new GridReference(182450, 044760)),
+                    //I can't get sufficiently good quality data for belfast to include this
+                    //{new GeoTestDataSet(
+                    //    "Belfast",
+                    //    //OSGB36 is calculated using this tool since I can't any osgb36 coords for NI
+                    // PolarGeoCoordinate.ChangeCoordinateSystem(
+                    //     new PolarGeoCoordinate(54.579254, -5.934520, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                    //     CoordinateSystems.OSGB36),
+                    //    new PolarGeoCoordinate(54.579254, -5.934520, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                    //    new GridReference(145849, 527567))},
+                    new GeoTestDataSet(
+                        "John O'Groats",
+                        new PolarGeoCoordinate(58.639451, -3.069178, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
+                        new PolarGeoCoordinate(58.639073, -3.070747, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
+                        new GridReference(337940, 972850))
+                };
+        }
+
+
         public TestSuite()
         {
             //
@@ -58,44 +98,7 @@ namespace TDPG.GeoCoordConversion.Test
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
-
-        /// <summary>
-        /// Following values come from http://www.nearby.org.uk/coord.cgi?p=BN1+6PJ&f=conv
-        /// </summary>
-
-        private static List<GeoTestDataSet> TestData = new List<GeoTestDataSet>()
-        {
-            {new GeoTestDataSet(
-                "Brighton",
-                new PolarGeoCoordinate(50.84608, -0.142409, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
-                new PolarGeoCoordinate(50.84667, -0.143987, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-                new GridReference(530760, 106880))},
-            {new GeoTestDataSet(
-                "Newcastle",
-                new PolarGeoCoordinate(54.979808, -1.584025, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
-                new PolarGeoCoordinate(54.979889, -1.585609, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-                new GridReference(426620, 565110))},
-            {new GeoTestDataSet(
-                "Truro",
-                new PolarGeoCoordinate(50.262067, -5.052743, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
-                new PolarGeoCoordinate(50.262655, -5.053748, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-                new GridReference(182450, 044760))},
-                //I can't get sufficiently good quality data for belfast to include this
-            //{new GeoTestDataSet(
-            //    "Belfast",
-            //    //OSGB36 is calculated using this tool since I can't any osgb36 coords for NI
-            // PolarGeoCoordinate.ChangeCoordinateSystem(
-            //     new PolarGeoCoordinate(54.579254, -5.934520, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-            //     CoordinateSystems.OSGB36),
-            //    new PolarGeoCoordinate(54.579254, -5.934520, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-            //    new GridReference(145849, 527567))},
-            {new GeoTestDataSet(
-                "John O'Groats",                
-                new PolarGeoCoordinate(58.639451, -3.069178, 0, AngleUnit.Degrees, CoordinateSystems.OSGB36),
-                new PolarGeoCoordinate(58.639073, -3.070747, 0, AngleUnit.Degrees, CoordinateSystems.WGS84),
-                new GridReference(337940, 972850))}
-        };
+        #endregion       
 
         [TestMethod]
         public void TestDegreesToRadians()
@@ -119,19 +122,19 @@ namespace TDPG.GeoCoordConversion.Test
         public void TestPolarGeoCoordComparison()
         {
             Assert.IsTrue(
-                TestData[0].OSGB36.IsTheSameAs(TestData[0].OSGB36)
-                && !TestData[0].OSGB36.IsTheSameAs(TestData[0].WGS84)
-                && TestData[0].OSGB36.IsTheSameAs(TestData[0].OSGB36,true,true)
-                && !TestData[0].OSGB36.IsTheSameAs(TestData[0].WGS84,true,true));
+                testData[0].OSGB36.IsTheSameAs(testData[0].OSGB36)
+                && !testData[0].OSGB36.IsTheSameAs(testData[0].WGS84)
+                && testData[0].OSGB36.IsTheSameAs(testData[0].OSGB36,true,true)
+                && !testData[0].OSGB36.IsTheSameAs(testData[0].WGS84,true,true));
         }
 
         [TestMethod]
         public void TestGridReferenceComparison()
         {
-            Assert.IsTrue(TestData[0].NE.IsTheSameAs(TestData[0].NE)
-               && !TestData[0].NE.IsTheSameAs(TestData[1].NE)
-               && TestData[0].NE.IsTheSameAs(TestData[0].NE,true)
-               && !TestData[0].NE.IsTheSameAs(TestData[1].NE, true));
+            Assert.IsTrue(testData[0].NE.IsTheSameAs(testData[0].NE)
+               && !testData[0].NE.IsTheSameAs(testData[1].NE)
+               && testData[0].NE.IsTheSameAs(testData[0].NE,true)
+               && !testData[0].NE.IsTheSameAs(testData[1].NE, true));
         }
 
         [TestMethod]
@@ -139,7 +142,7 @@ namespace TDPG.GeoCoordConversion.Test
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (GeoTestDataSet item in TestData)
+            foreach (GeoTestDataSet item in testData)
             {
                 PolarGeoCoordinate converted = PolarGeoCoordinate.ChangeCoordinateSystem(item.WGS84, CoordinateSystems.OSGB36);
 
@@ -149,7 +152,7 @@ namespace TDPG.GeoCoordConversion.Test
 
             if (sb.Length > 0)
             {
-                sb.AppendLine("failed out of" + TestData.Count.ToString());
+                sb.AppendLine("failed out of" + testData.Count.ToString());
                 Assert.Fail(sb.ToString());
             }
         }
@@ -159,17 +162,17 @@ namespace TDPG.GeoCoordConversion.Test
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (GeoTestDataSet item in TestData)
+            foreach (GeoTestDataSet item in testData)
             {
                 PolarGeoCoordinate converted = PolarGeoCoordinate.ChangeCoordinateSystem(item.OSGB36, CoordinateSystems.WGS84);
-
+                
                 if (!item.WGS84.IsTheSameAs(converted, true, true))
                     sb.AppendLine(item.City);
             }
 
             if (sb.Length > 0)
             {
-                sb.AppendLine("failed out of" + TestData.Count.ToString());
+                sb.AppendLine("failed out of" + testData.Count.ToString());
                 Assert.Fail(sb.ToString());
             }
         }
@@ -179,17 +182,17 @@ namespace TDPG.GeoCoordConversion.Test
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (GeoTestDataSet item in TestData)
+            foreach (GeoTestDataSet item in testData)
             {
                 GridReference converted = PolarGeoCoordinate.ChangeToGridReference(item.OSGB36);
-
+                
                 if (!item.NE.IsTheSameAs(converted, true))
                     sb.AppendLine(item.City);
             }
 
             if (sb.Length > 0)
             {
-                sb.AppendLine("failed out of" + TestData.Count.ToString());
+                sb.AppendLine("failed out of" + testData.Count.ToString());
                 Assert.Fail(sb.ToString());
             }
         }
@@ -199,7 +202,7 @@ namespace TDPG.GeoCoordConversion.Test
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (GeoTestDataSet item in TestData)
+            foreach (GeoTestDataSet item in testData)
             {
                 GridReference converted = PolarGeoCoordinate.ChangeToGridReference(item.WGS84);
 
@@ -209,7 +212,7 @@ namespace TDPG.GeoCoordConversion.Test
 
             if (sb.Length > 0)
             {
-                sb.AppendLine("failed out of" + TestData.Count.ToString());
+                sb.AppendLine("failed out of" + testData.Count.ToString());
                 Assert.Fail(sb.ToString());
             }
         }
@@ -219,9 +222,9 @@ namespace TDPG.GeoCoordConversion.Test
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (GeoTestDataSet item in TestData)
+            foreach (GeoTestDataSet item in testData)
             {
-                PolarGeoCoordinate converted = GridReference.ChangeToPolarGeo(item.NE);
+                PolarGeoCoordinate converted = GridReference.ChangeToPolarGeo(item.NE);                
 
                 if (!item.OSGB36.IsTheSameAs(converted, true, true))
                     sb.AppendLine(item.City);
@@ -229,7 +232,7 @@ namespace TDPG.GeoCoordConversion.Test
 
             if (sb.Length > 0)
             {
-                sb.AppendLine("failed out of" + TestData.Count.ToString());
+                sb.AppendLine("failed out of" + testData.Count.ToString());
                 Assert.Fail(sb.ToString());
             }
         }
